@@ -1,0 +1,106 @@
+﻿@model IEnumerable<AW_lab10.ViewModels.CartItemViewModel>
+
+@{
+    ViewData["Title"] = "Cart";
+}
+<h2>Koszyk</h2>
+@if (@Model.Count() > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Article.Name)
+                </th>
+                <th style="text-align: right">
+                    @Html.DisplayNameFor(model => model.Article.Price)
+                </th>
+                <th style="text-align: center">
+                    @Html.DisplayNameFor(model => model.Article.Image)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Article.Category)
+                </th>
+                <th align="right">
+                    @Html.DisplayNameFor(model => model.Count)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Article.Name)
+                </td>
+                <td style="text-align: right">
+                    @Html.DisplayFor(modelItem => item.Article.Price)
+                </td>
+                <td style="text-align: center">
+                    <img width="100" height="100" src="@Html.DisplayFor(modelItem => item.Article.ImagePath)" />
+                </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.Article.Category.Name)
+                </td>
+
+                <td align="right">
+                     <table>
+                        <td>
+                            @using (Html.BeginForm("ReduceCartEl", "Shop", new { id = item.Article.Id }))
+                            {
+                                    <button type="submit" class="btn btn-primary">-</button>
+                            }
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Count)
+                        </td>
+
+                        <td>
+                            @using (Html.BeginForm("AddCartEl", "Shop", new { id = item.Article.Id }))
+                            {
+                                    <button type="submit" class="btn btn-primary">+</button>
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("DeleteCartEl", "Shop", new { id = item.Article.Id }))
+                            {
+                                    <button type="submit" class="btn btn-dark" style="background-color:red">Usuń</button>
+                            }
+                        </td>
+                </table>
+                </td>                
+            </tr>
+            }
+        </tbody>
+    </table>
+    <h3>Cena całkowita: @ViewData["sum"]</h3>
+
+    <hr/>
+
+    @if (!User.IsInRole("Client"))
+    {
+        <h3>Zaloguj się, by móc zrealizować zakupy</h3>
+        
+        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">
+            <button type="submit" class="btn btn-primary">Zaloguj</button>
+        </a>
+        <br />
+        <br />
+    }
+    else
+    {
+        <a class="nav-link text-dark" asp-area="" asp-controller="Shop" asp-action="Summary">
+            <button type="submit" class="btn btn-success">Dalej</button>
+        </a>
+       
+        <br /> <br/>
+    }
+
+}
+else
+{
+    <h3 style="color:darkred">Twój koszyk jest pusty</h3>
+}
+
+<a asp-action="Index" class="btn btn-secondary">Powrót do wyboru kategorii</a>

@@ -1,0 +1,121 @@
+﻿@using Lista11.ViewModels
+@model IEnumerable<AW_lab10.ViewModels.CartItemViewModel>
+
+@{
+    ViewData["Title"] = "Cart";
+}
+<h2>Podsumowanie</h2>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Article.Name)
+            </th>
+            <th style="text-align: right">
+                @Html.DisplayNameFor(model => model.Article.Price)
+            </th>
+            <th style="text-align: center">
+                @Html.DisplayNameFor(model => model.Article.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Article.Category)
+            </th>
+            <th align="right">
+                @Html.DisplayNameFor(model => model.Count)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Article.Name)
+            </td>
+            <td style="text-align: right">
+                @Html.DisplayFor(modelItem => item.Article.Price)
+            </td>
+            <td style="text-align: center">
+                <img width="100" height="100" src="@Html.DisplayFor(modelItem => item.Article.ImagePath)" />
+            </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.Article.Category.Name)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>                
+        </tr>
+        }
+    </tbody>
+</table>
+<h3>Cena całkowita: @ViewData["sum"]</h3>
+
+<hr />
+
+<h3>Dane do wysyłki</h3>
+
+<form asp-action="Confirmation">
+<div class="row">
+
+</div>
+
+<table>
+    <tr>
+        <td>
+            <label for="clientName">Imię </label>
+        </td>
+        <td>
+            <input type="text" name="clientName" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="clientSurname">Nazwisko </label>
+
+        </td>
+        <td>
+            <input type="text" name="clientSurname" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+             <label for="clientAddress" >Adres </label>
+        </td>
+        <td>
+             <input type="text" name="clientAddress" />
+        </td>
+    </tr>
+    <tr>
+            <td>
+                <label for="paymentMethod">Sposób płatności </label>
+        </td    >
+            <td>
+                <div class="form-group">
+                    <label for="paymentMethod"></label>
+                    <select for="paymentMethod" asp-items="Html.GetEnumSelectList<PaymentMethod>()">
+                    </select>
+                </div>
+            </td>
+    </tr>
+    <tr>
+            
+    </tr>
+    <tr>
+        <td>
+            <button type="submit" class="btn btn-success">Potwierdź</button>
+        </td>
+    </tr>
+</table>
+
+</form>
+
+<td>
+    <a class="nav-link text-dark" asp-area="" asp-controller="Shop" asp-action="Cart">
+        <button type="submit" class="btn btn-danger">Powrót do koszyka</button>
+    </a>
+</td>
+
+

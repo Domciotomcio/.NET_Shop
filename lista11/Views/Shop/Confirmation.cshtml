@@ -1,0 +1,100 @@
+﻿@using Lista11.ViewModels
+@model Lista11.ViewModels.ConfirmViewModel
+@{
+    ViewData["Title"] = "View";
+
+
+}
+
+<h1>Potwierdzenie zamówienia</h1>
+
+<hr />
+
+<h3>Dane do zakupu</h3>
+
+<table>
+    <tr>
+        <td>
+            <label for="clientName">Imię </label>
+        </td>
+        <td>
+            <strong>@Model.name</strong>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="clientSurname">Nazwisko </label>
+
+        </td>
+        <td>
+            <strong>@Model.surname</strong>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="clientAddress">Adres </label>
+        </td>
+        <td>
+            <strong>@Model.address</strong>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="paymentMethod">Sposób płatności: </label>
+        </td>
+        <td>
+            <strong>@Model.paymentMethod</strong>
+        </td>
+    </tr>
+    
+</table>
+
+<hr />
+
+<h3>Zakupione towary</h3>
+
+<table class="table">    
+    <thead>
+        <tr>
+            <th>
+                <strong>Name</strong>
+            </th>
+            <th style="text-align: right">
+                <strong>Price</strong>
+            </th>
+            <th style="text-align: center">
+                <strong>Category</strong>
+            </th>
+            <th align="right">
+                <strong>Count</strong>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.basket)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Article.Name)
+                </td>
+                <td style="text-align: right">
+                    @Html.DisplayFor(modelItem => item.Article.Price)
+                </td>
+                <td style="text-align: center">
+                    @Html.DisplayFor(modelItem => item.Article.Category.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Count)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<h3>Cena całkowita: @ViewData["sum"]</h3>
+
+<hr/>
+<p>Dziękujemy za złożenie zamówienia.</p>
+<a class="btn btn-primary" asp-area="" asp-controller="Shop" asp-action="Index">
+    Powrót do sklepu
+</a>
+
